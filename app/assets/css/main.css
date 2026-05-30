@@ -210,6 +210,12 @@ body::after {
   border: 1px solid rgba(16, 185, 129, 0.2);
 }
 
+.badge--island {
+  background: rgba(14, 165, 233, 0.12);
+  color: #38bdf8;
+  border: 1px solid rgba(14, 165, 233, 0.2);
+}
+
 /* ─── Progress Bar ─────────────────────────────────────── */
 .progress-bar {
   position: relative;

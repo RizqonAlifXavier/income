@@ -149,6 +149,7 @@ function getCategoryBadgeClass(category: string): string {
   if (category === 'Sewa') return 'badge--sewa'
   if (category === 'Revenue Sharing Bazaar') return 'badge--bazaar'
   if (category === 'Revenue Sharing Event') return 'badge--event'
+  if (category === 'Revenue Sharing Island') return 'badge--island'
   return ''
 }
 </script>

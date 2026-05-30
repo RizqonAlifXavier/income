@@ -57,6 +57,13 @@ export const CATEGORIES = [
     color: '#10b981', // emerald
     gradient: 'linear-gradient(135deg, #10b981 0%, #34d399 100%)',
   },
+  {
+    key: 'Revenue Sharing Island',
+    label: 'Revenue Sharing Island',
+    icon: '🛸',
+    color: '#0ea5e9', // sky blue
+    gradient: 'linear-gradient(135deg, #0ea5e9 0%, #38bdf8 100%)',
+  },
 ] as const
 
 
