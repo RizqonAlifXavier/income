@@ -39,8 +39,12 @@
             <span class="invoice-modal__detail-value">{{ formatCurrency(entry.nominal) }}</span>
           </div>
           <div class="invoice-modal__detail">
-            <span class="invoice-modal__detail-label">Tanggal</span>
+            <span class="invoice-modal__detail-label">Tanggal Input</span>
             <span class="invoice-modal__detail-value">{{ formatDate(entry.date) }}</span>
+          </div>
+          <div class="invoice-modal__detail" v-if="entry.periode">
+            <span class="invoice-modal__detail-label">Periode Event</span>
+            <span class="invoice-modal__detail-value">{{ entry.periode }}</span>
           </div>
         </div>
 

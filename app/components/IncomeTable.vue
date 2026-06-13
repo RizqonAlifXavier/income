@@ -28,8 +28,9 @@
             <th>#</th>
             <th>Nama Event/Tenant</th>
             <th>Kategori</th>
+            <th>Periode</th>
             <th>Nominal</th>
-            <th>Tanggal</th>
+            <th>Tanggal Input</th>
             <th>Invoice</th>
           </tr>
         </thead>
@@ -42,6 +43,7 @@
                 {{ getCategoryIcon(entry.category) }} {{ entry.category }}
               </span>
             </td>
+            <td class="income-table__periode">{{ entry.periode || '-' }}</td>
             <td class="income-table__nominal">{{ formatCurrency(entry.nominal) }}</td>
             <td class="income-table__date">{{ formatDate(entry.date) }}</td>
             <td>

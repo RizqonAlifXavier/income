@@ -10,6 +10,7 @@ export interface IncomeEntry {
   category: string
   nominal: number
   date: string
+  periode: string
   invoiceUrl: string
 }
 
@@ -66,6 +67,7 @@ export function useIncomeData() {
         category: row[COLUMN_NAMES.category] || '',
         nominal: parseNominal(row[COLUMN_NAMES.nominal] || '0'),
         date: row[COLUMN_NAMES.date] || '',
+        periode: row[COLUMN_NAMES.periode] || '',
         invoiceUrl: row[COLUMN_NAMES.invoiceUrl] || '',
       }))
 

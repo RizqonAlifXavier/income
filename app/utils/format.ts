@@ -38,24 +38,29 @@ export function formatDate(dateStr: string): string {
  */
 function parseDateString(dateStr: string): Date | null {
   // Extract just the date part if there's a time component
-  const datePart = dateStr.split(' ')[0]
+  const datePart = dateStr.split(' ')[0] ?? dateStr
 
   // Try ISO format first (YYYY-MM-DD)
   if (/^\d{4}-\d{2}-\d{2}/.test(datePart)) {
     return new Date(datePart)
   }
 
-  // Try DD/MM/YYYY format
-  const dmyMatch = datePart.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/)
-  if (dmyMatch) {
-    const [, day, month, year] = dmyMatch
-    return new Date(Number(year), Number(month) - 1, Number(day))
-  }
+  const slashMatch = datePart.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/)
+  if (slashMatch) {
+    const [, p1, p2, year] = slashMatch
+    const n1 = Number(p1)
+    const n2 = Number(p2)
 
-  // Try MM/DD/YYYY format
-  const mdyMatch = datePart.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/)
-  if (mdyMatch) {
-    return new Date(datePart)
+    // Jika format MM/DD/YYYY (misal 6/13/2026)
+    if (n2 > 12) {
+      return new Date(Number(year), n1 - 1, n2)
+    }
+    // Jika format DD/MM/YYYY (misal 13/6/2026)
+    else if (n1 > 12) {
+      return new Date(Number(year), n2 - 1, n1)
+    }
+    // Jika ambigu (misal 6/10/2026), asumsikan MM/DD/YYYY karena default Google Sheets
+    return new Date(Number(year), n1 - 1, n2)
   }
 
   // Fallback
@@ -102,14 +107,14 @@ export function parseNominal(value: string | number): number {
     }
   } else if (lastCommaIndex > -1) {
     const parts = cleaned.split(',')
-    if (parts.length > 2 || parts[parts.length - 1].length === 3) {
+    if (parts.length > 2 || parts[parts.length - 1]!.length === 3) {
       cleaned = cleaned.replace(/,/g, '')
     } else {
       cleaned = cleaned.replace(',', '.')
     }
   } else if (lastDotIndex > -1) {
     const parts = cleaned.split('.')
-    if (parts.length > 2 || parts[parts.length - 1].length === 3) {
+    if (parts.length > 2 || parts[parts.length - 1]!.length === 3) {
       cleaned = cleaned.replace(/\./g, '')
     }
   }
