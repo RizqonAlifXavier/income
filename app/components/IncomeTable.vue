@@ -30,7 +30,7 @@
             <th>Kategori</th>
             <th>Periode</th>
             <th>Nominal</th>
-            <th>Tanggal Input</th>
+            <th>Tanggal Event</th>
             <th>Invoice</th>
           </tr>
         </thead>

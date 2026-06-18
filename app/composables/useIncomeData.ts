@@ -1,6 +1,6 @@
 import { ref, computed, type Ref } from 'vue'
 import { parseCSV, type ParsedRow } from '~/utils/csv-parser'
-import { parseNominal } from '~/utils/format'
+import { parseNominal, parseDateString } from '~/utils/format'
 import { CSV_URL, COLUMN_NAMES, CATEGORIES, TARGET_INCOME } from '~/utils/config'
 
 // ─── Types ──────────────────────────────────────────────
@@ -26,8 +26,7 @@ export interface CategorySummary {
 
 export interface Filters {
   category: string
-  dateFrom: string
-  dateTo: string
+  month: string
 }
 
 
@@ -39,10 +38,12 @@ export function useIncomeData() {
   const error = ref<string | null>(null)
   const lastUpdated = ref<Date | null>(null)
 
+  const now = new Date()
+  const currentMonthStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`
+
   const filters = ref<Filters>({
     category: '',
-    dateFrom: '',
-    dateTo: '',
+    month: currentMonthStr,
   })
 
   // ─── Fetch Data ──────────────────────────────
@@ -88,21 +89,16 @@ export function useIncomeData() {
       result = result.filter((e) => e.category === filters.value.category)
     }
 
-    // Filter by date range
-    if (filters.value.dateFrom) {
-      const from = new Date(filters.value.dateFrom)
-      result = result.filter((e) => {
-        const entryDate = new Date(e.date)
-        return entryDate >= from
-      })
-    }
+    // Filter by month
+    if (filters.value.month) {
+      const [yearStr = '', monthStr = ''] = filters.value.month.split('-')
+      const targetYear = parseInt(yearStr, 10)
+      const targetMonth = parseInt(monthStr, 10) - 1 // 0-indexed in JS Date
 
-    if (filters.value.dateTo) {
-      const to = new Date(filters.value.dateTo)
-      to.setHours(23, 59, 59, 999)
       result = result.filter((e) => {
-        const entryDate = new Date(e.date)
-        return entryDate <= to
+        const entryDate = parseDateString(e.date)
+        if (!entryDate || isNaN(entryDate.getTime())) return false
+        return entryDate.getFullYear() === targetYear && entryDate.getMonth() === targetMonth
       })
     }
 
@@ -140,6 +136,65 @@ export function useIncomeData() {
     })
   )
 
+  // ─── Trend Data (Last 6 Months) ──────────────
+  const trendData = computed(() => {
+    let targetYear: number
+    let targetMonth: number
+
+    // Jika filter bulan aktif, gunakan bulan tersebut. Jika tidak, gunakan bulan saat ini.
+    if (filters.value.month) {
+      const [yearStr = '', monthStr = ''] = filters.value.month.split('-')
+      targetYear = parseInt(yearStr, 10)
+      targetMonth = parseInt(monthStr, 10) - 1
+    } else {
+      const now = new Date()
+      targetYear = now.getFullYear()
+      targetMonth = now.getMonth()
+    }
+
+    // Inisialisasi array 6 bulan ke belakang
+    const months: { year: number; month: number; label: string; total: number }[] = []
+    
+    for (let i = 5; i >= 0; i--) {
+      let m = targetMonth - i
+      let y = targetYear
+      if (m < 0) {
+        m += 12
+        y -= 1
+      }
+      
+      const date = new Date(y, m, 1)
+      const label = new Intl.DateTimeFormat('id-ID', { month: 'short' }).format(date)
+      
+      months.push({ year: y, month: m, label, total: 0 })
+    }
+
+    // Gunakan seluruh entri data (tidak difilter berdasar bulan)
+    // tetapi tetap pertimbangkan filter kategori jika ada.
+    let baseEntries = entries.value
+    if (filters.value.category) {
+      baseEntries = baseEntries.filter(e => e.category === filters.value.category)
+    }
+
+    baseEntries.forEach(e => {
+      const entryDate = parseDateString(e.date)
+      if (!entryDate || isNaN(entryDate.getTime())) return
+      
+      const ey = entryDate.getFullYear()
+      const em = entryDate.getMonth()
+      
+      const match = months.find(m => m.year === ey && m.month === em)
+      if (match) {
+        match.total += e.nominal
+      }
+    })
+
+    return months.map(m => ({
+      label: m.label,
+      total: m.total
+    }))
+  })
+
   return {
     // State
     entries,
@@ -154,6 +209,7 @@ export function useIncomeData() {
     totalTransactions,
     targetProgress,
     categorySummaries,
+    trendData,
 
     // Actions
     fetchData,

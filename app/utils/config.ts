@@ -28,7 +28,7 @@ export const COLUMN_NAMES = {
   name: 'Nama Event',
   category: 'Kategori',
   nominal: 'Nominal',
-  date: 'Timestamp',
+  date: 'Tanggal Event',
   periode: 'Periode Event',
   invoiceUrl: 'Bukti Bayar',
 } as const

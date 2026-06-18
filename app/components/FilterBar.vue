@@ -17,24 +17,13 @@
       </div>
 
       <div class="filter-bar__group">
-        <label for="filter-date-from" class="form-label">Dari Tanggal</label>
+        <label for="filter-month" class="form-label">Bulan</label>
         <input
-          id="filter-date-from"
-          type="date"
+          id="filter-month"
+          type="month"
           class="form-input"
-          :value="modelDateFrom"
-          @input="$emit('update:modelDateFrom', ($event.target as HTMLInputElement).value)"
-        />
-      </div>
-
-      <div class="filter-bar__group">
-        <label for="filter-date-to" class="form-label">Sampai Tanggal</label>
-        <input
-          id="filter-date-to"
-          type="date"
-          class="form-input"
-          :value="modelDateTo"
-          @input="$emit('update:modelDateTo', ($event.target as HTMLInputElement).value)"
+          :value="modelMonth"
+          @input="$emit('update:modelMonth', ($event.target as HTMLInputElement).value)"
         />
       </div>
 
@@ -65,8 +54,7 @@ import { CATEGORIES } from '~/utils/config'
 
 interface Props {
   modelCategory: string
-  modelDateFrom: string
-  modelDateTo: string
+  modelMonth: string
   resultCount?: number
 }
 
@@ -74,13 +62,12 @@ const props = defineProps<Props>()
 
 defineEmits<{
   'update:modelCategory': [value: string]
-  'update:modelDateFrom': [value: string]
-  'update:modelDateTo': [value: string]
+  'update:modelMonth': [value: string]
   reset: []
 }>()
 
 const hasActiveFilters = computed(
-  () => props.modelCategory || props.modelDateFrom || props.modelDateTo
+  () => props.modelCategory || props.modelMonth
 )
 </script>
 

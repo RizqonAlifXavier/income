@@ -36,7 +36,7 @@ export function formatDate(dateStr: string): string {
 /**
  * Parse various date string formats that may come from Google Sheets.
  */
-function parseDateString(dateStr: string): Date | null {
+export function parseDateString(dateStr: string): Date | null {
   // Extract just the date part if there's a time component
   const datePart = dateStr.split(' ')[0] ?? dateStr
 

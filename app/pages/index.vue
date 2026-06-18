@@ -102,7 +102,7 @@
         />
       </section>
 
-      <!-- Category Breakdown -->
+      <!-- Category Breakdown & Trend -->
       <section class="dashboard__categories" aria-label="Breakdown per Kategori">
         <CategoryCard
           v-for="(cat, index) in categorySummaries"
@@ -114,13 +114,18 @@
           :count="cat.count"
           :animation-class="`animate-in animate-in-delay-${index + 1}`"
         />
+        
+        <!-- Trend Chart (Spans 2 columns on desktop) -->
+        <IncomeTrendChart
+          :trend-data="trendData"
+          class="dashboard__trend"
+        />
       </section>
 
       <!-- Filters -->
       <FilterBar
         v-model:model-category="filters.category"
-        v-model:model-date-from="filters.dateFrom"
-        v-model:model-date-to="filters.dateTo"
+        v-model:model-month="filters.month"
         :result-count="filteredEntries.length"
         @reset="resetFilters"
       />
@@ -160,6 +165,7 @@ const {
   totalTransactions,
   targetProgress,
   categorySummaries,
+  trendData,
   fetchData,
 } = useIncomeData()
 
@@ -179,10 +185,12 @@ function closeInvoice() {
 
 // ─── Actions ───────────────────────────────────────────
 function resetFilters() {
+  const now = new Date()
+  const currentMonthStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`
+
   filters.value = {
     category: '',
-    dateFrom: '',
-    dateTo: '',
+    month: currentMonthStr,
   }
 }
 
@@ -313,6 +321,10 @@ onMounted(() => {
   margin-bottom: 1.5rem;
 }
 
+.dashboard__trend {
+  grid-column: span 2;
+}
+
 /* ─── Content ────────────────────────────────────────── */
 .dashboard__content {
   display: flex;
@@ -389,6 +401,10 @@ onMounted(() => {
   .dashboard__categories,
   .dashboard__loading-grid {
     grid-template-columns: 1fr;
+  }
+
+  .dashboard__trend {
+    grid-column: span 1;
   }
 }
 </style>
