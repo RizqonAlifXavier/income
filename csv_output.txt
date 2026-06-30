@@ -1,0 +1,12 @@
+Timestamp,Nama Event,Kategori,Nominal,Bukti Bayar,Periode Event,Tanggal Event
+6/13/2026 9:34:53,Senam pak Tonny,Sewa,500000,https://drive.google.com/open?id=19zolWvifJImn4EKXeeDslpz09adiYNlG,,6/13/2026
+6/13/2026 9:38:47,Senam bu Liesna (Line Dance) 1 bulan,Sewa,800000,https://drive.google.com/open?id=1zJoWH8n0yeZ0UdjZnN4bNzSp5cliYkGJ,1 Bulan,6/13/2026
+6/13/2026 9:42:29,Senam bu Sierli sesi 1,Sewa,200000,https://drive.google.com/open?id=1rvAF3oNKwsEuuvss2UyH63LJIZAhGD61,1 Minggu,6/13/2026
+6/13/2026 9:42:59,Senam bu Sierli sesi 2,Sewa,200000,https://drive.google.com/open?id=1hR1Hmz5SN7BscvVu9MI4aVFvKLus4CCk,1 Minggu,6/13/2026
+6/15/2026 15:09:42,Mobile Legends Tournament Phase 2 2026,Revenue Sharing Event,450000,https://drive.google.com/open?id=1zx-IRT8T0429Mm025RzUOK0ZZFjTxADF,14 Juni 2026,6/13/2026
+6/17/2026 8:53:15,Bu Sierli (Line Dance),Sewa,200000,https://drive.google.com/open?id=1ijkJTgKjrNYe3vWdL2GbTXspVLMBnt0H,Setiap hari Senin,6/13/2026
+6/21/2026 9:59:01,MultiFest Amel,Sewa,5500000,https://drive.google.com/open?id=1d64qBsDmNKljpp6MsVg4FqQaSSKKaxpp,26 Juni - 25 Juli 2026,6/26/2026
+6/23/2026 9:36:30,Senam bu Sierli (Line Dance),Sewa,200000,https://drive.google.com/open?id=1sCWUCwYH83n_9WHNb7fpojHHsGHWQL_C,Setiap hari Senin - Juni 2026 ,6/22/2026
+6/29/2026 12:02:52,Workshop AI dan Animasi Stop Motion by Budi Sumarno,Revenue Sharing Event,246000,https://drive.google.com/open?id=1zePWCIz1u8zv-tzEaSyC5fDEBY5WU9T3,20 dan 27 Juni 2026,6/27/2026
+6/30/2026 7:19:29,Join Diecast,Sewa,3000000,https://drive.google.com/open?id=1lYIdNqZ_NLeO191X0TomKt2YSBrWZmyX,1 - 31 Juli 2026,7/1/2026
+6/30/2026 7:20:43,Bu Sierli Line Dance,Sewa,200000,https://drive.google.com/open?id=13JD-dbCdNkrJnmB05HAzGDqBY4pJvoIn,Setiap hari Senin,6/29/2026

@@ -12,6 +12,7 @@ export interface IncomeEntry {
   date: string
   periode: string
   invoiceUrl: string
+  timestampStr: string
 }
 
 export interface CategorySummary {
@@ -81,6 +82,7 @@ export function useIncomeData() {
         date: row[COLUMN_NAMES.date] || row['Timestamp'] || '',
         periode: row[COLUMN_NAMES.periode] || '',
         invoiceUrl: row[COLUMN_NAMES.invoiceUrl] || '',
+        timestampStr: row['Timestamp'] || row[COLUMN_NAMES.date] || '',
       }))
 
       lastUpdated.value = new Date()
@@ -107,7 +109,8 @@ export function useIncomeData() {
       const targetMonth = parseInt(monthStr, 10) - 1 // 0-indexed in JS Date
 
       result = result.filter((e) => {
-        const entryDate = parseDateString(e.date)
+        // Filter by when the transaction was inputted/paid (Timestamp) instead of Event Date
+        const entryDate = parseDateString(e.timestampStr)
         if (!entryDate || isNaN(entryDate.getTime())) return false
         return entryDate.getFullYear() === targetYear && entryDate.getMonth() === targetMonth
       })
@@ -188,7 +191,8 @@ export function useIncomeData() {
     }
 
     baseEntries.forEach(e => {
-      const entryDate = parseDateString(e.date)
+      // Use timestampStr for cash flow trend
+      const entryDate = parseDateString(e.timestampStr)
       if (!entryDate || isNaN(entryDate.getTime())) return
       
       const ey = entryDate.getFullYear()
