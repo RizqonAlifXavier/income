@@ -56,7 +56,18 @@ export function useIncomeData() {
         throw new Error('CSV URL belum dikonfigurasi di config.ts')
       }
 
-      const response = await fetch(CSV_URL)
+      // Prevent caching by appending timestamp
+      const fetchUrl = CSV_URL.includes('?') 
+        ? `${CSV_URL}&t=${Date.now()}` 
+        : `${CSV_URL}?t=${Date.now()}`
+
+      const response = await fetch(fetchUrl, {
+        cache: 'no-store',
+        headers: {
+          'Pragma': 'no-cache',
+          'Cache-Control': 'no-cache'
+        }
+      })
       if (!response.ok) throw new Error(`HTTP ${response.status}`)
 
       const csvText = await response.text()
@@ -67,7 +78,7 @@ export function useIncomeData() {
         name: row[COLUMN_NAMES.name] || '',
         category: row[COLUMN_NAMES.category] || '',
         nominal: parseNominal(row[COLUMN_NAMES.nominal] || '0'),
-        date: row[COLUMN_NAMES.date] || '',
+        date: row[COLUMN_NAMES.date] || row['Timestamp'] || '',
         periode: row[COLUMN_NAMES.periode] || '',
         invoiceUrl: row[COLUMN_NAMES.invoiceUrl] || '',
       }))
