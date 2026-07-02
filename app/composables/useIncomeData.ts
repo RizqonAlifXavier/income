@@ -109,8 +109,8 @@ export function useIncomeData() {
       const targetMonth = parseInt(monthStr, 10) - 1 // 0-indexed in JS Date
 
       result = result.filter((e) => {
-        // Filter by when the transaction was inputted/paid (Timestamp) instead of Event Date
-        const entryDate = parseDateString(e.timestampStr)
+        // Filter by Event Date instead of Timestamp
+        const entryDate = parseDateString(e.date)
         if (!entryDate || isNaN(entryDate.getTime())) return false
         return entryDate.getFullYear() === targetYear && entryDate.getMonth() === targetMonth
       })
@@ -191,8 +191,8 @@ export function useIncomeData() {
     }
 
     baseEntries.forEach(e => {
-      // Use timestampStr for cash flow trend
-      const entryDate = parseDateString(e.timestampStr)
+      // Use Event Date for trend
+      const entryDate = parseDateString(e.date)
       if (!entryDate || isNaN(entryDate.getTime())) return
       
       const ey = entryDate.getFullYear()
