@@ -109,8 +109,16 @@ export function useIncomeData() {
       const targetMonth = parseInt(monthStr, 10) - 1 // 0-indexed in JS Date
 
       result = result.filter((e) => {
-        // Filter by Event Date instead of Timestamp
-        const entryDate = parseDateString(e.date)
+        // Use the earlier date between Timestamp and Event Date
+        const tDate = parseDateString(e.timestampStr)
+        const eDate = parseDateString(e.date)
+        let entryDate = tDate
+        if (tDate && eDate && !isNaN(tDate.getTime()) && !isNaN(eDate.getTime())) {
+          entryDate = tDate.getTime() < eDate.getTime() ? tDate : eDate
+        } else if (eDate && !isNaN(eDate.getTime())) {
+          entryDate = eDate
+        }
+
         if (!entryDate || isNaN(entryDate.getTime())) return false
         return entryDate.getFullYear() === targetYear && entryDate.getMonth() === targetMonth
       })
@@ -191,8 +199,16 @@ export function useIncomeData() {
     }
 
     baseEntries.forEach(e => {
-      // Use Event Date for trend
-      const entryDate = parseDateString(e.date)
+      // Use the earlier date between Timestamp and Event Date for trend
+      const tDate = parseDateString(e.timestampStr)
+      const eDate = parseDateString(e.date)
+      let entryDate = tDate
+      if (tDate && eDate && !isNaN(tDate.getTime()) && !isNaN(eDate.getTime())) {
+        entryDate = tDate.getTime() < eDate.getTime() ? tDate : eDate
+      } else if (eDate && !isNaN(eDate.getTime())) {
+        entryDate = eDate
+      }
+      
       if (!entryDate || isNaN(entryDate.getTime())) return
       
       const ey = entryDate.getFullYear()
